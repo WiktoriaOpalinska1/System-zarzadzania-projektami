@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "BusinessLogic/managerprojektow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,7 +18,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void onSortButtonClicked();
+    void showProjectsInTable(const std::vector<Project*>& projekty);
+
 private:
     Ui::MainWindow *ui;
+    ManagerProjektow managerProjektow;
 };
+
 #endif // MAINWINDOW_H

@@ -41,6 +41,9 @@ public:
     void printInfo() const;
     string toString() const;
 
+    // Destruktor
+    virtual ~Project() = default;
+
 };
 
 class TeamProject : public Project {
@@ -59,8 +62,8 @@ public:
                 const string& responsibilities);
 
     // Gettery
-    vector<string> getCollaborators() const;
-    string getResponsibilities() const;
+    const vector<string>& getCollaborators() const;
+    const string& getResponsibilities() const;
 
     // Settery
     void setCollaborators(const vector<string>& collaborators);
@@ -72,11 +75,15 @@ public:
 class ManagerProjektow {
 private:
     vector<Project*> projekty;
+    vector<string> contributors;
+    string responsibilities;
 
 public:
     ManagerProjektow();
 
     const vector<Project*>& getProjekty() const;
+
+
     ~ManagerProjektow();
 };
 

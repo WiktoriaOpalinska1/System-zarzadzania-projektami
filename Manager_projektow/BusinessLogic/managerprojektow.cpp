@@ -91,13 +91,14 @@ TeamProject::TeamProject(const string& name, const vector<string>& technologies,
 }
 
 // Gettery
-vector<string> TeamProject::getCollaborators() const {
+const vector<string>& TeamProject::getCollaborators() const {
     return collaborators;
 }
 
-string TeamProject::getResponsibilities() const {
+const string& TeamProject::getResponsibilities() const {
     return responsibilities;
 }
+
 
 // Settery
 void TeamProject::setCollaborators(const vector<string>& collaborators) {
@@ -107,6 +108,7 @@ void TeamProject::setCollaborators(const vector<string>& collaborators) {
 void TeamProject::setResponsibilities(const string& responsibilities) {
     this->responsibilities = responsibilities;
 }
+
 
 // ============= Manager Projektow ===========
 ManagerProjektow::ManagerProjektow() {
