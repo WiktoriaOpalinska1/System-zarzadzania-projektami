@@ -22,6 +22,8 @@ private slots:
     void onSortButtonClicked();
     void showProjectsInTable(const std::vector<Project*>& projekty);
 
+    void on_addProjectButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     ManagerProjektow managerProjektow;

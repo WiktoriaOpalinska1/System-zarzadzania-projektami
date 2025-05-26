@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/BusinessLogic
+# Install script for directory: C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/BusinessLogic
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

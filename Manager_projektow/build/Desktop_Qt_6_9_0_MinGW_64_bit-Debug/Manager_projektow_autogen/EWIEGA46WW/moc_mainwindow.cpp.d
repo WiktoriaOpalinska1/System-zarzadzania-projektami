@@ -1,5 +1,5 @@
-C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Manager_projektow_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/mainwindow.h \
-  C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Manager_projektow_autogen/moc_predefs.h \
+C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Manager_projektow_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/mainwindow.h \
+  C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Manager_projektow_autogen/moc_predefs.h \
   C:/Qt/6.9.0/mingw_64/include/QtCore/q17memory.h \
   C:/Qt/6.9.0/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.9.0/mingw_64/include/QtCore/q20iterator.h \
@@ -369,4 +369,5 @@ C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_Min
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/sys/types.h \
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
-  C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+  C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
+  C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/BusinessLogic/managerprojektow.h

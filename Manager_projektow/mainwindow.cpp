@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "addprojectdialog.h"
 #include "BusinessLogic/managerprojektow.h"
 
 #include <QString>
@@ -87,3 +88,24 @@ void MainWindow::showProjectsInTable(const std::vector<Project*>& projekty) {
         }
     }
 }
+void MainWindow::on_addProjectButton_clicked()
+{
+    AddProjectDialog dialog(this);
+    if (dialog.exec() == QDialog::Accepted) {
+        auto name = dialog.getName().toStdString();
+        QStringList techList = dialog.getTechnologies();
+        std::vector<std::string> technologies;
+        for (const QString& tech : techList) {
+            technologies.push_back(tech.trimmed().toStdString());
+        }
+
+        auto status = dialog.getStatus().toStdString();
+        auto time = dialog.getWorkTime();
+        auto repo = dialog.getRepository().toStdString();
+
+        auto* newProject = new Project(name, technologies, status, time, repo);
+        managerProjektow.addProject(newProject);
+        showProjectsInTable(managerProjektow.getProjekty());
+    }
+}
+

@@ -126,3 +126,7 @@ ManagerProjektow::~ManagerProjektow() {
     for (auto* p : projekty)
         delete p;
 }
+void ManagerProjektow::addProject(Project* p) {
+    projekty.push_back(p);
+}
+

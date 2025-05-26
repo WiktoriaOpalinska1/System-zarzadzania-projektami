@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow
+# Install script for directory: C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Manager_projektow.exe")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Manager_projektow.exe")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/Manager_projektow.exe" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/Manager_projektow.exe")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -49,7 +49,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/BusinessLogic/cmake_install.cmake")
+  include("C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/BusinessLogic/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -67,6 +67,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
