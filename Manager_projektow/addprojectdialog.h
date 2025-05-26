@@ -20,11 +20,15 @@ public:
     QString getStatus() const;
     float getWorkTime() const;
     QString getRepository() const;
+    bool isTeamProject() const;
+    QStringList getCollaborators() const;
+    QString getResponsibilities() const;
+
 
 private slots:
     void on_buttonBox_accepted();
-
     void on_buttonBox_rejected();
+    void on_teamProjectCheckBox_toggled(bool checked);
 
 private:
     Ui::AddProjectDialog *ui;
