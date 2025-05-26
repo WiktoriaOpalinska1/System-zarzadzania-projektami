@@ -11,10 +11,14 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -23,7 +27,13 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QTextEdit *textEdit;
+    QGridLayout *gridLayout;
+    QComboBox *sortComboBox;
+    QPushButton *addProjectButton;
+    QTableWidget *projectTableWidget;
+    QWidget *widget_3;
+    QWidget *widget;
+    QPushButton *sortButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -31,16 +41,47 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(800, 600);
+        MainWindow->resize(776, 631);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        textEdit = new QTextEdit(centralwidget);
-        textEdit->setObjectName("textEdit");
-        textEdit->setGeometry(QRect(50, 100, 681, 411));
+        gridLayout = new QGridLayout(centralwidget);
+        gridLayout->setObjectName("gridLayout");
+        sortComboBox = new QComboBox(centralwidget);
+        sortComboBox->addItem(QString());
+        sortComboBox->addItem(QString());
+        sortComboBox->setObjectName("sortComboBox");
+
+        gridLayout->addWidget(sortComboBox, 0, 1, 1, 1);
+
+        addProjectButton = new QPushButton(centralwidget);
+        addProjectButton->setObjectName("addProjectButton");
+
+        gridLayout->addWidget(addProjectButton, 0, 2, 1, 1);
+
+        projectTableWidget = new QTableWidget(centralwidget);
+        projectTableWidget->setObjectName("projectTableWidget");
+
+        gridLayout->addWidget(projectTableWidget, 1, 0, 1, 5);
+
+        widget_3 = new QWidget(centralwidget);
+        widget_3->setObjectName("widget_3");
+
+        gridLayout->addWidget(widget_3, 0, 3, 1, 1);
+
+        widget = new QWidget(centralwidget);
+        widget->setObjectName("widget");
+
+        gridLayout->addWidget(widget, 0, 4, 1, 1);
+
+        sortButton = new QPushButton(centralwidget);
+        sortButton->setObjectName("sortButton");
+
+        gridLayout->addWidget(sortButton, 0, 0, 1, 1);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 776, 25));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
@@ -54,6 +95,11 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        sortComboBox->setItemText(0, QCoreApplication::translate("MainWindow", "A-Z", nullptr));
+        sortComboBox->setItemText(1, QCoreApplication::translate("MainWindow", "Z-A", nullptr));
+
+        addProjectButton->setText(QCoreApplication::translate("MainWindow", "Dodaj Projekt", nullptr));
+        sortButton->setText(QCoreApplication::translate("MainWindow", "Sortuj", nullptr));
     } // retranslateUi
 
 };

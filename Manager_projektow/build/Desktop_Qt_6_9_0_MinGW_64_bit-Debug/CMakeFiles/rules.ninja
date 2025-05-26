@@ -61,7 +61,7 @@ rule CXX_SHARED_LIBRARY_LINKER__BusinessLogic_Debug
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\Qt\Tools\CMake_64\bin\cmake.exe --regenerate-during-build -SC:\Users\opali\Desktop\projekt_JiPP\Manager_projektow -BC:\Users\opali\Desktop\projekt_JiPP\Manager_projektow\build\Desktop_Qt_6_9_0_MinGW_64_bit-Debug
+  command = C:\Qt\Tools\CMake_64\bin\cmake.exe --regenerate-during-build -SC:\Users\Gabriela\Desktop\System-zarzadzania-projektami-main\Manager_projektow -BC:\Users\Gabriela\Desktop\System-zarzadzania-projektami-main\Manager_projektow\build\Desktop_Qt_6_9_0_MinGW_64_bit-Debug
   description = Re-running CMake...
   generator = 1
 

@@ -150,7 +150,9 @@ Manager_projektow_autogen/timestamp: \
 	C:/Qt/6.9.0/mingw_64/include/QtGui/qtransform.h \
 	C:/Qt/6.9.0/mingw_64/include/QtGui/qwindowdefs.h \
 	C:/Qt/6.9.0/mingw_64/include/QtGui/qwindowdefs_win.h \
+	C:/Qt/6.9.0/mingw_64/include/QtWidgets/QDialog \
 	C:/Qt/6.9.0/mingw_64/include/QtWidgets/QMainWindow \
+	C:/Qt/6.9.0/mingw_64/include/QtWidgets/qdialog.h \
 	C:/Qt/6.9.0/mingw_64/include/QtWidgets/qmainwindow.h \
 	C:/Qt/6.9.0/mingw_64/include/QtWidgets/qsizepolicy.h \
 	C:/Qt/6.9.0/mingw_64/include/QtWidgets/qtabwidget.h \
@@ -573,14 +575,18 @@ Manager_projektow_autogen/timestamp: \
 	C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
 	C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
 	C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/CMakeLists.txt \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Manager_projektow_autogen/moc_predefs.h \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/main.cpp \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/mainwindow.cpp \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/mainwindow.h \
-	C:/Users/opali/Desktop/projekt_JiPP/Manager_projektow/mainwindow.ui \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/BusinessLogic/managerprojektow.h \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/CMakeLists.txt \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/addprojectdialog.cpp \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/addprojectdialog.h \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Manager_projektow_autogen/moc_predefs.h \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/main.cpp \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/mainwindow.cpp \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/mainwindow.h \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/addprojectdialog.ui \
+	C:/Users/Gabriela/Desktop/System-zarzadzania-projektami-main/Manager_projektow/mainwindow.ui \
 	C:/Qt/Tools/CMake_64/bin/cmake.exe
