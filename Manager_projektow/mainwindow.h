@@ -25,6 +25,7 @@ private slots:
     void on_addProjectButton_clicked();
     void onSearchTextChanged(const QString& text);
     void onSearchFilterChanged(int index);
+    void on_deleteProjectButton_clicked();
 
 
 
