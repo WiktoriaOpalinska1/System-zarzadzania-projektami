@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->searchFilterComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::onSearchFilterChanged);
     ui->searchLineEdit->setPlaceholderText("Wpisz dowolny szukany fragment...");
+    connect(ui->deleteProjectButton, &QPushButton::clicked, this, &MainWindow::on_deleteProjectButton_clicked);
 
 
 
@@ -189,5 +190,16 @@ void MainWindow::onSearchFilterChanged(int index)
     }
 
     ui->searchLineEdit->setPlaceholderText(placeholder);
+}
+
+void MainWindow::on_deleteProjectButton_clicked() {
+    int selectedRow = ui->projectTableWidget->currentRow();
+    if (selectedRow >= 0 && selectedRow < static_cast<int>(managerProjektow.getProjekty().size())) {
+        auto projekty = managerProjektow.getProjekty();
+        Project* toRemove = projekty[selectedRow];
+
+        managerProjektow.removeProject(toRemove);
+        showProjectsInTable(managerProjektow.getProjekty());
+    }
 }
 

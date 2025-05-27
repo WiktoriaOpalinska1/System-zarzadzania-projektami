@@ -15,14 +15,21 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="2">
-     <widget class="QPushButton" name="addProjectButton">
-      <property name="text">
-       <string>Dodaj Projekt</string>
-      </property>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="sortComboBox">
+      <item>
+       <property name="text">
+        <string>A-Z</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Z-A</string>
+       </property>
+      </item>
      </widget>
     </item>
-    <item row="0" column="4">
+    <item row="0" column="6">
      <widget class="QComboBox" name="searchFilterComboBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -62,7 +69,10 @@
       </item>
      </widget>
     </item>
-    <item row="0" column="3">
+    <item row="0" column="13">
+     <widget class="QWidget" name="widget_3" native="true"/>
+    </item>
+    <item row="0" column="5">
      <widget class="QLabel" name="label">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -75,8 +85,28 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0" colspan="17">
+    <item row="0" column="7">
+     <widget class="QLineEdit" name="searchLineEdit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="19">
      <widget class="QTableWidget" name="projectTableWidget"/>
+    </item>
+    <item row="0" column="18">
+     <widget class="QWidget" name="widget" native="true"/>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="addProjectButton">
+      <property name="text">
+       <string>Dodaj Projekt</string>
+      </property>
+     </widget>
     </item>
     <item row="0" column="0">
      <widget class="QPushButton" name="sortButton">
@@ -85,33 +115,10 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QComboBox" name="sortComboBox">
-      <item>
-       <property name="text">
-        <string>A-Z</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Z-A</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="0" column="15">
-     <widget class="QWidget" name="widget_3" native="true"/>
-    </item>
-    <item row="0" column="16">
-     <widget class="QWidget" name="widget" native="true"/>
-    </item>
-    <item row="0" column="5">
-     <widget class="QLineEdit" name="searchLineEdit">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
+    <item row="0" column="8">
+     <widget class="QPushButton" name="deleteProjectButton">
+      <property name="text">
+       <string>Usuń Projekt</string>
       </property>
      </widget>
     </item>
@@ -123,7 +130,7 @@
      <x>0</x>
      <y>0</y>
      <width>776</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

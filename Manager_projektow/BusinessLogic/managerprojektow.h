@@ -84,6 +84,7 @@ public:
 
     const vector<Project*>& getProjekty() const;
     void addProject(Project* p);
+    void removeProject(Project* p);
 
 
     ~ManagerProjektow();
