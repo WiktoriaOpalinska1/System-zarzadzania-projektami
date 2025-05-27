@@ -103,7 +103,22 @@ void MainWindow::on_addProjectButton_clicked()
         auto time = dialog.getWorkTime();
         auto repo = dialog.getRepository().toStdString();
 
-        auto* newProject = new Project(name, technologies, status, time, repo);
+        Project* newProject = nullptr;
+
+        if (dialog.isTeamProject()) {
+            std::vector<std::string> collaborators;
+            for (const auto& c : dialog.getCollaborators())
+                collaborators.push_back(c.trimmed().toStdString());
+
+            newProject = new TeamProject(
+                name, technologies, status, time, repo,
+                collaborators,
+                dialog.getResponsibilities().toStdString()
+                );
+        } else {
+            newProject = new Project(name, technologies, status, time, repo);
+        }
+
         managerProjektow.addProject(newProject);
         showProjectsInTable(managerProjektow.getProjekty());
     }

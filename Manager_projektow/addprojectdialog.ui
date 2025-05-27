@@ -6,17 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
-    <height>368</height>
+    <width>533</width>
+    <height>519</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QLineEdit" name="nameLineEdit"/>
-   </item>
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
@@ -25,7 +22,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="technologiesLineEdit"/>
+    <widget class="QLineEdit" name="nameLineEdit"/>
    </item>
    <item>
     <widget class="QLabel" name="label_2">
@@ -35,7 +32,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="statusLineEdit"/>
+    <widget class="QLineEdit" name="technologiesLineEdit"/>
    </item>
    <item>
     <widget class="QLabel" name="label_3">
@@ -45,7 +42,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QDoubleSpinBox" name="workTimeSpinBox"/>
+    <widget class="QLineEdit" name="statusLineEdit"/>
    </item>
    <item>
     <widget class="QLabel" name="label_4">
@@ -55,7 +52,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="repositoryLineEdit"/>
+    <widget class="QDoubleSpinBox" name="workTimeSpinBox"/>
    </item>
    <item>
     <widget class="QLabel" name="label_5">
@@ -63,6 +60,36 @@
       <string>Repozytorium</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="repositoryLineEdit"/>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="teamProjectCheckBox">
+     <property name="text">
+      <string>Projekt Zespołowy</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="collaboratorsLabel">
+     <property name="text">
+      <string>Współautorzy (CSV)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="collaboratorsLineEdit"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="responsibilitiesLabel">
+     <property name="text">
+      <string>Obowiązki</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="responsibilitiesLineEdit"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
