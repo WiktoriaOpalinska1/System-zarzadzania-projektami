@@ -1,5 +1,6 @@
 #include "managerprojektow.h"
 #include <iostream>
+#include <algorithm>
 
 
 // ============ Projects ============
@@ -129,4 +130,12 @@ ManagerProjektow::~ManagerProjektow() {
 void ManagerProjektow::addProject(Project* p) {
     projekty.push_back(p);
 }
+void ManagerProjektow::removeProject(Project* p) {
+    auto it = std::find(projekty.begin(), projekty.end(), p);
+    if (it != projekty.end()) {
+        delete *it;  // opcjonalne, tylko jeśli odpowiadasz za dealokację
+        projekty.erase(it);
+    }
+}
+
 

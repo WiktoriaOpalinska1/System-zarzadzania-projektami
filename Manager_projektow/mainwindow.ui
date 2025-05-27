@@ -40,7 +40,21 @@
      <widget class="QTableWidget" name="projectTableWidget"/>
     </item>
     <item row="0" column="3">
-     <widget class="QWidget" name="widget_3" native="true"/>
+     <widget class="QWidget" name="widget_3" native="true">
+      <widget class="QPushButton" name="deleteProjectButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>146</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Usuń Projekt</string>
+       </property>
+      </widget>
+     </widget>
     </item>
     <item row="0" column="4">
      <widget class="QWidget" name="widget" native="true"/>
@@ -60,7 +74,7 @@
      <x>0</x>
      <y>0</y>
      <width>776</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

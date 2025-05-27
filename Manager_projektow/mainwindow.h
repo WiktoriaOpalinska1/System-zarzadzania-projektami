@@ -23,6 +23,8 @@ private slots:
     void showProjectsInTable(const std::vector<Project*>& projekty);
 
     void on_addProjectButton_clicked();
+    void on_deleteProjectButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;

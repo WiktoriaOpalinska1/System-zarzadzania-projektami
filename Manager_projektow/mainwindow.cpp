@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->projectTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     connect(ui->sortButton, &QPushButton::clicked, this, &MainWindow::onSortButtonClicked);
+    connect(ui->deleteProjectButton, &QPushButton::clicked, this, &MainWindow::on_deleteProjectButton_clicked);
 
 }
 
@@ -123,4 +124,16 @@ void MainWindow::on_addProjectButton_clicked()
         showProjectsInTable(managerProjektow.getProjekty());
     }
 }
+
+void MainWindow::on_deleteProjectButton_clicked() {
+    int selectedRow = ui->projectTableWidget->currentRow();
+    if (selectedRow >= 0 && selectedRow < static_cast<int>(managerProjektow.getProjekty().size())) {
+        auto projekty = managerProjektow.getProjekty();
+        Project* toRemove = projekty[selectedRow];
+
+        managerProjektow.removeProject(toRemove);
+        showProjectsInTable(managerProjektow.getProjekty());
+    }
+}
+
 
