@@ -44,6 +44,7 @@ public:
     // Destruktor
     virtual ~Project() = default;
 
+
 };
 
 class TeamProject : public Project {
@@ -82,6 +83,7 @@ public:
     ManagerProjektow();
 
     const vector<Project*>& getProjekty() const;
+    void addProject(Project* p);
 
 
     ~ManagerProjektow();

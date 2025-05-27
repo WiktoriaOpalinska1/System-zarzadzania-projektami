@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "addprojectdialog.h"
 #include "BusinessLogic/managerprojektow.h"
 
 #include <QString>
@@ -26,6 +27,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->projectTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     connect(ui->sortButton, &QPushButton::clicked, this, &MainWindow::onSortButtonClicked);
+    connect(ui->searchLineEdit, &QLineEdit::textChanged,
+            this, &MainWindow::onSearchTextChanged);
+    connect(ui->searchFilterComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::onSearchFilterChanged);
+    ui->searchLineEdit->setPlaceholderText("Wpisz dowolny szukany fragment...");
+
+
+
 
 }
 
@@ -87,3 +96,98 @@ void MainWindow::showProjectsInTable(const std::vector<Project*>& projekty) {
         }
     }
 }
+void MainWindow::on_addProjectButton_clicked()
+{
+    AddProjectDialog dialog(this);
+    if (dialog.exec() == QDialog::Accepted) {
+        auto name = dialog.getName().toStdString();
+        QStringList techList = dialog.getTechnologies();
+        std::vector<std::string> technologies;
+        for (const QString& tech : techList) {
+            technologies.push_back(tech.trimmed().toStdString());
+        }
+
+        auto status = dialog.getStatus().toStdString();
+        auto time = dialog.getWorkTime();
+        auto repo = dialog.getRepository().toStdString();
+
+        Project* newProject = nullptr;
+
+        if (dialog.isTeamProject()) {
+            std::vector<std::string> collaborators;
+            for (const auto& c : dialog.getCollaborators())
+                collaborators.push_back(c.trimmed().toStdString());
+
+            newProject = new TeamProject(
+                name, technologies, status, time, repo,
+                collaborators,
+                dialog.getResponsibilities().toStdString()
+                );
+        } else {
+            newProject = new Project(name, technologies, status, time, repo);
+        }
+
+        managerProjektow.addProject(newProject);
+        showProjectsInTable(managerProjektow.getProjekty());
+    }
+}
+void MainWindow::onSearchTextChanged(const QString&)
+{
+    QString searchText = ui->searchLineEdit->text().trimmed().toLower();
+    QString filterType = ui->searchFilterComboBox->currentText();
+
+    std::vector<Project*> filtered;
+    for (auto* p : managerProjektow.getProjekty()) {
+        QString name = QString::fromStdString(p->getName()).toLower();
+        QString status = QString::fromStdString(p->getStatus()).toLower();
+        QString repo = QString::fromStdString(p->getRepositoryLink()).toLower();
+
+        QString techList;
+        for (const auto& t : p->getTechnologies())
+            techList += QString::fromStdString(t).toLower() + " ";
+
+        QString authors;
+        if (TeamProject* tp = dynamic_cast<TeamProject*>(p)) {
+            for (const auto& a : tp->getCollaborators())
+                authors += QString::fromStdString(a).toLower() + " ";
+        }
+
+        bool match = false;
+
+        if (filterType == "Nazwa")
+            match = name.contains(searchText);
+        else if (filterType == "Technologie")
+            match = techList.contains(searchText);
+        else if (filterType == "Status")
+            match = status.contains(searchText);
+        else if (filterType == "Repozytorium")
+            match = repo.contains(searchText);
+        else if (filterType == "Współautorzy")
+            match = authors.contains(searchText);
+        else  // Wszystko
+            match = name.contains(searchText) || techList.contains(searchText) ||
+                    status.contains(searchText) || repo.contains(searchText) ||
+                    authors.contains(searchText);
+
+        if (match)
+            filtered.push_back(p);
+    }
+
+    showProjectsInTable(filtered);
+}
+void MainWindow::onSearchFilterChanged(int index)
+{
+    QString placeholder;
+
+    switch (index) {
+    case 1: placeholder = "Wpisz nazwę projektu..."; break;
+    case 2: placeholder = "Wpisz technologię..."; break;
+    case 3: placeholder = "Wpisz status projektu..."; break;
+    case 4: placeholder = "Wpisz link do repozytorium..."; break;
+    case 5: placeholder = "Wpisz współautora..."; break;
+    default: placeholder = "Wpisz dowolny szukany fragment..."; break;
+    }
+
+    ui->searchLineEdit->setPlaceholderText(placeholder);
+}
+
