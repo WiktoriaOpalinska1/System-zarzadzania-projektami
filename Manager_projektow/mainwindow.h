@@ -26,8 +26,7 @@ private slots:
     void onSearchTextChanged(const QString& text);
     void onSearchFilterChanged(int index);
     void on_deleteProjectButton_clicked();
-
-
+    void on_showStatsButton_clicked();
 
 private:
     Ui::MainWindow *ui;

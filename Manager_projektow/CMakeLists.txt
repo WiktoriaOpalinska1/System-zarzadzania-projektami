@@ -18,6 +18,10 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        statisticsdialog.cpp
+        statisticsdialog.h
+        statisticsdialog.ui
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -25,6 +29,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         addprojectdialog.h addprojectdialog.cpp addprojectdialog.ui
+        statisticsdialog.h statisticsdialog.cpp statisticsdialog.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Manager_projektow APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

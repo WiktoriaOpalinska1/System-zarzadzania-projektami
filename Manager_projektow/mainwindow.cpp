@@ -33,10 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onSearchFilterChanged);
     ui->searchLineEdit->setPlaceholderText("Wpisz dowolny szukany fragment...");
     connect(ui->deleteProjectButton, &QPushButton::clicked, this, &MainWindow::on_deleteProjectButton_clicked);
-
-
-
-
 }
 
 MainWindow::~MainWindow() {
@@ -203,3 +199,56 @@ void MainWindow::on_deleteProjectButton_clicked() {
     }
 }
 
+#include "statisticsdialog.h"
+
+void MainWindow::on_showStatsButton_clicked() {
+    const auto& projekty = managerProjektow.getProjekty();
+
+    int totalProjects = projekty.size();
+    float totalTime = 0.0f;
+    int teamCount = 0;
+    std::map<std::string, int> technologyCount;
+    std::map<std::string, int> statusCount;
+
+    for (auto* p : projekty) {
+        totalTime += p->getWorkTime();
+        for (const auto& tech : p->getTechnologies()) {
+            technologyCount[tech]++;
+        }
+        statusCount[p->getStatus()]++;
+        if (dynamic_cast<TeamProject*>(p)) {
+            teamCount++;
+        }
+    }
+
+    float averageTime = totalProjects > 0 ? totalTime / totalProjects : 0;
+    int individualCount = totalProjects - teamCount;
+
+    std::vector<std::pair<std::string, int>> sortedTechs(technologyCount.begin(), technologyCount.end());
+    std::sort(sortedTechs.begin(), sortedTechs.end(), [](const auto& a, const auto& b) {
+        return b.second > a.second;
+    });
+
+    QString topTech;
+    for (int i = 0; i < std::min(3, static_cast<int>(sortedTechs.size())); ++i) {
+        topTech += QString::fromStdString(sortedTechs[i].first);
+        if (i < std::min(3, static_cast<int>(sortedTechs.size())) - 1)
+            topTech += ", ";
+    }
+
+    QStringList stats;
+    stats << "Liczba projektów: " + QString::number(totalProjects);
+    stats << "Łączny czas pracy: " + QString::number(totalTime) + " h";
+    stats << "Średni czas pracy: " + QString::number(averageTime, 'f', 2) + " h";
+    stats << "Projekty zespołowe: " + QString::number(teamCount);
+    stats << "Projekty indywidualne: " + QString::number(individualCount);
+    stats << "Najpopularniejsze technologie: " + topTech;
+    stats << "Statusy:";
+
+    for (const auto& [status, count] : statusCount) {
+        stats << " - " + QString::fromStdString(status) + ": " + QString::number(count);
+    }
+
+    StatisticsDialog dialog(stats, this);
+    dialog.exec();  // pokaż okno statystyk
+}

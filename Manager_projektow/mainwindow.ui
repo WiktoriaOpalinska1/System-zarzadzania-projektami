@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>776</width>
-    <height>631</height>
+    <width>923</width>
+    <height>586</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
+    <item row="0" column="11">
+     <widget class="QWidget" name="widget_3" native="true"/>
+    </item>
+    <item row="0" column="3">
      <widget class="QComboBox" name="sortComboBox">
       <item>
        <property name="text">
@@ -29,7 +32,23 @@
       </item>
      </widget>
     </item>
-    <item row="0" column="6">
+    <item row="0" column="8">
+     <widget class="QLabel" name="label">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Szukaj:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" rowspan="2" colspan="14">
+     <widget class="QTableWidget" name="projectTableWidget"/>
+    </item>
+    <item row="0" column="9">
      <widget class="QComboBox" name="searchFilterComboBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -69,23 +88,31 @@
       </item>
      </widget>
     </item>
-    <item row="0" column="13">
-     <widget class="QWidget" name="widget_3" native="true"/>
-    </item>
-    <item row="0" column="5">
-     <widget class="QLabel" name="label">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="deleteProjectButton">
       <property name="text">
-       <string>Szukaj:</string>
+       <string>Usuń Projekt</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="7">
+    <item row="0" column="2">
+     <widget class="QPushButton" name="sortButton">
+      <property name="text">
+       <string>Sortuj</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="addProjectButton">
+      <property name="text">
+       <string>Dodaj Projekt</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="13">
+     <widget class="QWidget" name="widget" native="true"/>
+    </item>
+    <item row="0" column="12">
      <widget class="QLineEdit" name="searchLineEdit">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -95,30 +122,10 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0" colspan="19">
-     <widget class="QTableWidget" name="projectTableWidget"/>
-    </item>
-    <item row="0" column="18">
-     <widget class="QWidget" name="widget" native="true"/>
-    </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="addProjectButton">
+    <item row="5" column="12">
+     <widget class="QPushButton" name="showStatsButton">
       <property name="text">
-       <string>Dodaj Projekt</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="sortButton">
-      <property name="text">
-       <string>Sortuj</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="8">
-     <widget class="QPushButton" name="deleteProjectButton">
-      <property name="text">
-       <string>Usuń Projekt</string>
+       <string>Pokaż statystyki</string>
       </property>
      </widget>
     </item>
@@ -129,7 +136,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>776</width>
+     <width>923</width>
      <height>26</height>
     </rect>
    </property>
