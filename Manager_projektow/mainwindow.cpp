@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "addprojectdialog.h"
+#include "statisticsdialog.h"
 #include "BusinessLogic/managerprojektow.h"
 
 #include <QString>
 #include <QTextEdit>
 #include <algorithm>
+#include <QPdfWriter>
+#include <QPainter>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -199,8 +203,6 @@ void MainWindow::on_deleteProjectButton_clicked() {
     }
 }
 
-#include "statisticsdialog.h"
-
 void MainWindow::on_showStatsButton_clicked() {
     const auto& projekty = managerProjektow.getProjekty();
 
@@ -251,4 +253,123 @@ void MainWindow::on_showStatsButton_clicked() {
 
     StatisticsDialog dialog(stats, this);
     dialog.exec();  // pokaż okno statystyk
+}
+
+void MainWindow::on_generatePdfButton_clicked() {
+    const auto& projekty = managerProjektow.getProjekty();
+
+    int totalProjects = projekty.size();
+    float totalTime = 0.0f;
+    int teamCount = 0;
+    std::map<std::string, int> technologyCount;
+    std::map<std::string, int> statusCount;
+
+    for (auto* p : projekty) {
+        totalTime += p->getWorkTime();
+        for (const auto& tech : p->getTechnologies()) {
+            technologyCount[tech]++;
+        }
+        statusCount[p->getStatus()]++;
+        if (dynamic_cast<TeamProject*>(p)) {
+            teamCount++;
+        }
+    }
+
+    float averageTime = totalProjects > 0 ? totalTime / totalProjects : 0;
+    int individualCount = totalProjects - teamCount;
+
+    std::vector<std::pair<std::string, int>> sortedTechs(technologyCount.begin(), technologyCount.end());
+    std::sort(sortedTechs.begin(), sortedTechs.end(), [](const auto& a, const auto& b) {
+        return b.second > a.second;
+    });
+
+    QString topTech;
+    for (int i = 0; i < std::min(3, static_cast<int>(sortedTechs.size())); ++i) {
+        topTech += QString::fromStdString(sortedTechs[i].first);
+        if (i < std::min(3, static_cast<int>(sortedTechs.size())) - 1)
+            topTech += ", ";
+    }
+
+    QStringList stats;
+    stats << "Liczba projektów: " + QString::number(totalProjects);
+    stats << "Łączny czas pracy: " + QString::number(totalTime) + " h";
+    stats << "Średni czas pracy: " + QString::number(averageTime, 'f', 2) + " h";
+    stats << "Projekty zespołowe: " + QString::number(teamCount);
+    stats << "Projekty indywidualne: " + QString::number(individualCount);
+    stats << "Najpopularniejsze technologie: " + topTech;
+    stats << "Statusy:";
+    for (const auto& [status, count] : statusCount) {
+        stats << " - " + QString::fromStdString(status) + ": " + QString::number(count);
+    }
+
+    // Wybór lokalizacji zapisu
+    QString filePath = QFileDialog::getSaveFileName(this, "Zapisz PDF", "", "PDF files (*.pdf)");
+    if (filePath.isEmpty()) return;
+
+    QPdfWriter writer(filePath);
+    writer.setPageSize(QPageSize::A4);
+    writer.setResolution(96);
+    QPainter painter(&writer);
+    painter.setFont(QFont("Times", 10));
+
+    const int margin = 50;
+    const int rowHeight = 25;
+    int y = margin;
+
+    // Tabela - nagłówki
+    int col1 = margin;
+    int col2 = col1 + 120;
+    int col3 = col2 + 140;
+    int col4 = col3 + 100;
+    int col5 = col4 + 80;
+
+    painter.setFont(QFont("Times", 10, QFont::Bold));
+    painter.drawText(col1, y, "Nazwa");
+    painter.drawText(col2, y, "Technologie");
+    painter.drawText(col3, y, "Status");
+    painter.drawText(col4, y, "Czas (h)");
+    painter.drawText(col5, y, "Repozytorium");
+
+    y += rowHeight;
+    painter.setFont(QFont("Times", 10));
+
+    // Tabela - dane projektów
+    for (const auto* p : projekty) {
+        QString name = QString::fromStdString(p->getName());
+        QStringList techList;
+        for (const auto& tech : p->getTechnologies()) {
+            techList << QString::fromStdString(tech);
+        }
+        QString techs = techList.join(", ");
+
+        QString status = QString::fromStdString(p->getStatus());
+        QString time = QString::number(p->getWorkTime());
+        QString repo = QString::fromStdString(p->getRepositoryLink());
+
+        painter.drawText(col1, y, name);
+        painter.drawText(col2, y, techs);
+        painter.drawText(col3, y, status);
+        painter.drawText(col4, y, time);
+        painter.drawText(col5, y, repo);
+        y += rowHeight;
+    }
+
+    y += 30;  // odstęp przed statystykami
+
+    // Statystyki
+    painter.setFont(QFont("Times", 12));
+    for (const QString& line : stats) {
+        painter.drawText(margin, y, line);
+        y += rowHeight;
+    }
+
+    painter.end();
+}
+
+// Pomocnicza funkcja do łączenia std::vector<std::string> na QString
+QString join(const std::vector<std::string>& vec, const QString& sep) {
+    QStringList list;
+    for (const auto& s : vec)
+        list << QString::fromStdString(s);
+    return list.join(sep);
 }
