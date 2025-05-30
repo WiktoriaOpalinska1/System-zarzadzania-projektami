@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "addprojectdialog.h"
+#include "statisticsdialog.h"
 #include "BusinessLogic/managerprojektow.h"
 
 #include <QString>
 #include <QTextEdit>
 #include <algorithm>
+#include <QPdfWriter>
+#include <QPainter>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -199,8 +203,6 @@ void MainWindow::on_deleteProjectButton_clicked() {
     }
 }
 
-#include "statisticsdialog.h"
-
 void MainWindow::on_showStatsButton_clicked() {
     const auto& projekty = managerProjektow.getProjekty();
 
@@ -251,4 +253,162 @@ void MainWindow::on_showStatsButton_clicked() {
 
     StatisticsDialog dialog(stats, this);
     dialog.exec();  // pokaż okno statystyk
+}
+
+
+// Pomocnicza funkcja do łączenia std::vector<std::string> na QString
+QString join(const std::vector<std::string>& vec, const QString& sep) {
+    QStringList list;
+    for (const auto& s : vec)
+        list << QString::fromStdString(s);
+    return list.join(sep);
+}
+
+void MainWindow::on_generatePdfButton_clicked() {
+    const auto& projekty = managerProjektow.getProjekty();
+
+    int totalProjects = projekty.size();
+    float totalTime = 0.0f;
+    int teamCount = 0;
+    std::map<std::string, int> technologyCount;
+    std::map<std::string, int> statusCount;
+
+    for (auto* p : projekty) {
+        totalTime += p->getWorkTime();
+        for (const auto& tech : p->getTechnologies()) {
+            technologyCount[tech]++;
+        }
+        statusCount[p->getStatus()]++;
+        if (dynamic_cast<TeamProject*>(p)) {
+            teamCount++;
+        }
+    }
+
+    float averageTime = totalProjects > 0 ? totalTime / totalProjects : 0;
+    int individualCount = totalProjects - teamCount;
+
+    std::vector<std::pair<std::string, int>> sortedTechs(technologyCount.begin(), technologyCount.end());
+    std::sort(sortedTechs.begin(), sortedTechs.end(), [](const auto& a, const auto& b) {
+        return b.second > a.second;
+    });
+
+    QString topTech;
+    for (int i = 0; i < std::min(3, static_cast<int>(sortedTechs.size())); ++i) {
+        topTech += QString::fromStdString(sortedTechs[i].first);
+        if (i < std::min(3, static_cast<int>(sortedTechs.size())) - 1)
+            topTech += ", ";
+    }
+
+    QStringList stats;
+    stats << "<b>Liczba projektów:</b> " + QString::number(totalProjects);
+    stats << "<b>Łączny czas pracy:</b> " + QString::number(totalTime) + " h";
+    stats << "<b>Średni czas pracy:</b> " + QString::number(averageTime, 'f', 2) + " h";
+    stats << "<b>Projekty zespołowe:</b> " + QString::number(teamCount);
+    stats << "<b>Projekty indywidualne:</b> " + QString::number(individualCount);
+    stats << "<b>Najpopularniejsze technologie:</b> " + topTech;
+    stats << "<b>Statusy:</b>";
+    for (const auto& [status, count] : statusCount) {
+        stats << " - " + QString::fromStdString(status) + ": " + QString::number(count);
+    }
+
+    QString filePath = QFileDialog::getSaveFileName(this, "Zapisz PDF", "", "PDF files (*.pdf)");
+    if (filePath.isEmpty()) return;
+
+    QPdfWriter writer(filePath);
+    writer.setPageSize(QPageSize::A4);
+    writer.setResolution(96);
+    QPainter painter(&writer);
+    painter.setFont(QFont("Times", 10));
+
+    const int margin = 50;
+    const int rowHeight = 25;
+    int y = margin;
+
+    // ========= NAGŁÓWEK =========
+    painter.setFont(QFont("Times", 16, QFont::Bold));
+    QString headerText = "Projekty programistyczne";
+    int headerWidth = painter.fontMetrics().horizontalAdvance(headerText);
+    int pageWidth = writer.width();
+    painter.drawText((pageWidth - headerWidth) / 2, y, headerText);
+
+    y += rowHeight + 30;
+    painter.setFont(QFont("Times", 10, QFont::Bold));
+    painter.drawText(margin, y, "Nazwa");
+    painter.drawText(margin + 120, y, "Technologie");
+    painter.drawText(margin + 260, y, "Status");
+    painter.drawText(margin + 370, y, "Czas (h)");
+    painter.drawText(margin + 450, y, "Repozytorium");
+
+    y += rowHeight;
+    painter.setFont(QFont("Times", 10));
+
+    // ========= TABELA PROJEKTÓW =========
+    for (const auto* p : projekty) {
+        QString name = QString::fromStdString(p->getName());
+        QStringList techList;
+        for (const auto& tech : p->getTechnologies()) {
+            techList << QString::fromStdString(tech);
+        }
+        QString techs = techList.join(", ");
+        QString status = QString::fromStdString(p->getStatus());
+        QString time = QString::number(p->getWorkTime());
+        QString repo = QString::fromStdString(p->getRepositoryLink());
+        painter.drawText(margin, y, name);
+        painter.drawText(margin + 120, y, techs);
+        QString statusIcon;
+        QColor statusColor = Qt::black;
+
+        if (status == "Zakończony") {
+            statusIcon = "✅ ";
+            statusColor = QColor(0, 128, 0);
+        } else if (status == "W trakcie") {
+            statusIcon = "🔄 ";
+            statusColor = QColor(218, 165, 32);
+        } else if (status == "Wstrzymany") {
+            statusIcon = "⛔ ";
+            statusColor = Qt::red;
+        } else {
+            statusIcon = "❔ ";
+            statusColor = Qt::darkGray;
+        }
+
+        painter.setPen(statusColor);
+        painter.drawText(margin + 260, y, statusIcon + status);
+        painter.setPen(Qt::black);
+        painter.drawText(margin + 370, y, time);
+        painter.drawText(margin + 450, y, repo);
+
+        y += rowHeight;
+    }
+
+    // ========= STATYSTYKI =========
+    y += 30;
+    painter.setFont(QFont("Times", 14, QFont::Bold));
+    QString statsHeader = "Ogólne statystyki";
+    int statsHeaderWidth = painter.fontMetrics().horizontalAdvance(statsHeader);
+    painter.drawText((pageWidth - statsHeaderWidth) / 2, y, statsHeader);
+    y += rowHeight;
+
+
+    // Wyświetlanie statystyk
+    painter.setFont(QFont("Times", 10));
+    for (const QString& line : stats) {
+        if (line.startsWith("<b>")) {
+            QTextDocument doc;
+            doc.setHtml(line);
+            painter.save();
+            painter.translate(margin, y);
+            doc.drawContents(&painter);
+            painter.restore();
+            y += doc.size().height();
+        } else if (line.startsWith(" - ")) {
+            painter.drawText(margin + 20, y+10, line);
+            y += rowHeight;
+        } else {
+            painter.drawText(margin, y, line);
+            y += rowHeight;
+        }
+    }
+
+    painter.end();
 }

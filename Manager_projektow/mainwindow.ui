@@ -15,39 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="11">
-     <widget class="QWidget" name="widget_3" native="true"/>
-    </item>
-    <item row="0" column="3">
-     <widget class="QComboBox" name="sortComboBox">
-      <item>
-       <property name="text">
-        <string>A-Z</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Z-A</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="0" column="8">
-     <widget class="QLabel" name="label">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Szukaj:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" rowspan="2" colspan="14">
-     <widget class="QTableWidget" name="projectTableWidget"/>
-    </item>
     <item row="0" column="9">
      <widget class="QComboBox" name="searchFilterComboBox">
       <property name="sizePolicy">
@@ -88,11 +55,21 @@
       </item>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QPushButton" name="deleteProjectButton">
-      <property name="text">
-       <string>Usuń Projekt</string>
-      </property>
+    <item row="0" column="10">
+     <widget class="QWidget" name="widget_3" native="true"/>
+    </item>
+    <item row="0" column="3">
+     <widget class="QComboBox" name="sortComboBox">
+      <item>
+       <property name="text">
+        <string>A-Z</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Z-A</string>
+       </property>
+      </item>
      </widget>
     </item>
     <item row="0" column="2">
@@ -102,6 +79,16 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="deleteProjectButton">
+      <property name="text">
+       <string>Usuń Projekt</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="12">
+     <widget class="QWidget" name="widget" native="true"/>
+    </item>
     <item row="0" column="0">
      <widget class="QPushButton" name="addProjectButton">
       <property name="text">
@@ -109,23 +96,43 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="13">
-     <widget class="QWidget" name="widget" native="true"/>
+    <item row="5" column="3" colspan="7">
+     <widget class="QPushButton" name="generatePdfButton">
+      <property name="text">
+       <string>Wygeneruj PDF</string>
+      </property>
+     </widget>
     </item>
-    <item row="0" column="12">
+    <item row="5" column="0" colspan="3">
+     <widget class="QPushButton" name="showStatsButton">
+      <property name="text">
+       <string>Pokaż statystyki</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="8">
+     <widget class="QLabel" name="label">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Szukaj:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" rowspan="2" colspan="13">
+     <widget class="QTableWidget" name="projectTableWidget"/>
+    </item>
+    <item row="0" column="11">
      <widget class="QLineEdit" name="searchLineEdit">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="12">
-     <widget class="QPushButton" name="showStatsButton">
-      <property name="text">
-       <string>Pokaż statystyki</string>
       </property>
      </widget>
     </item>
@@ -137,7 +144,7 @@
      <x>0</x>
      <y>0</y>
      <width>923</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

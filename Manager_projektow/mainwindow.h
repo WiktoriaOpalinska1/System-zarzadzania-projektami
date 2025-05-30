@@ -27,10 +27,13 @@ private slots:
     void onSearchFilterChanged(int index);
     void on_deleteProjectButton_clicked();
     void on_showStatsButton_clicked();
+    void on_generatePdfButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     ManagerProjektow managerProjektow;
 };
+
+QString join(const std::vector<std::string>& vec, const QString& sep);
 
 #endif // MAINWINDOW_H
