@@ -11,11 +11,17 @@
 #include <QPainter>
 #include <QFileDialog>
 
+const QString SAVE_FILENAME = "projekty.json";
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    managerProjektow.loadFromFile(SAVE_FILENAME);
+    showProjectsInTable(managerProjektow.getProjekty());
 
     ManagerProjektow manager;
 
@@ -37,10 +43,14 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onSearchFilterChanged);
     ui->searchLineEdit->setPlaceholderText("Wpisz dowolny szukany fragment...");
     connect(ui->deleteProjectButton, &QPushButton::clicked, this, &MainWindow::on_deleteProjectButton_clicked);
+
+
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+    managerProjektow.saveToFile(SAVE_FILENAME);
+
 }
 
 void MainWindow::onSortButtonClicked() {
