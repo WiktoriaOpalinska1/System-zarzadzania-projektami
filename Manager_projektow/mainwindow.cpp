@@ -255,6 +255,15 @@ void MainWindow::on_showStatsButton_clicked() {
     dialog.exec();  // pokaż okno statystyk
 }
 
+
+// Pomocnicza funkcja do łączenia std::vector<std::string> na QString
+QString join(const std::vector<std::string>& vec, const QString& sep) {
+    QStringList list;
+    for (const auto& s : vec)
+        list << QString::fromStdString(s);
+    return list.join(sep);
+}
+
 void MainWindow::on_generatePdfButton_clicked() {
     const auto& projekty = managerProjektow.getProjekty();
 
@@ -291,18 +300,17 @@ void MainWindow::on_generatePdfButton_clicked() {
     }
 
     QStringList stats;
-    stats << "Liczba projektów: " + QString::number(totalProjects);
-    stats << "Łączny czas pracy: " + QString::number(totalTime) + " h";
-    stats << "Średni czas pracy: " + QString::number(averageTime, 'f', 2) + " h";
-    stats << "Projekty zespołowe: " + QString::number(teamCount);
-    stats << "Projekty indywidualne: " + QString::number(individualCount);
-    stats << "Najpopularniejsze technologie: " + topTech;
-    stats << "Statusy:";
+    stats << "<b>Liczba projektów:</b> " + QString::number(totalProjects);
+    stats << "<b>Łączny czas pracy:</b> " + QString::number(totalTime) + " h";
+    stats << "<b>Średni czas pracy:</b> " + QString::number(averageTime, 'f', 2) + " h";
+    stats << "<b>Projekty zespołowe:</b> " + QString::number(teamCount);
+    stats << "<b>Projekty indywidualne:</b> " + QString::number(individualCount);
+    stats << "<b>Najpopularniejsze technologie:</b> " + topTech;
+    stats << "<b>Statusy:</b>";
     for (const auto& [status, count] : statusCount) {
         stats << " - " + QString::fromStdString(status) + ": " + QString::number(count);
     }
 
-    // Wybór lokalizacji zapisu
     QString filePath = QFileDialog::getSaveFileName(this, "Zapisz PDF", "", "PDF files (*.pdf)");
     if (filePath.isEmpty()) return;
 
@@ -316,24 +324,25 @@ void MainWindow::on_generatePdfButton_clicked() {
     const int rowHeight = 25;
     int y = margin;
 
-    // Tabela - nagłówki
-    int col1 = margin;
-    int col2 = col1 + 120;
-    int col3 = col2 + 140;
-    int col4 = col3 + 100;
-    int col5 = col4 + 80;
+    // ========= NAGŁÓWEK =========
+    painter.setFont(QFont("Times", 16, QFont::Bold));
+    QString headerText = "Projekty programistyczne";
+    int headerWidth = painter.fontMetrics().horizontalAdvance(headerText);
+    int pageWidth = writer.width();
+    painter.drawText((pageWidth - headerWidth) / 2, y, headerText);
 
+    y += rowHeight + 30;
     painter.setFont(QFont("Times", 10, QFont::Bold));
-    painter.drawText(col1, y, "Nazwa");
-    painter.drawText(col2, y, "Technologie");
-    painter.drawText(col3, y, "Status");
-    painter.drawText(col4, y, "Czas (h)");
-    painter.drawText(col5, y, "Repozytorium");
+    painter.drawText(margin, y, "Nazwa");
+    painter.drawText(margin + 120, y, "Technologie");
+    painter.drawText(margin + 260, y, "Status");
+    painter.drawText(margin + 370, y, "Czas (h)");
+    painter.drawText(margin + 450, y, "Repozytorium");
 
     y += rowHeight;
     painter.setFont(QFont("Times", 10));
 
-    // Tabela - dane projektów
+    // ========= TABELA PROJEKTÓW =========
     for (const auto* p : projekty) {
         QString name = QString::fromStdString(p->getName());
         QStringList techList;
@@ -341,35 +350,65 @@ void MainWindow::on_generatePdfButton_clicked() {
             techList << QString::fromStdString(tech);
         }
         QString techs = techList.join(", ");
-
         QString status = QString::fromStdString(p->getStatus());
         QString time = QString::number(p->getWorkTime());
         QString repo = QString::fromStdString(p->getRepositoryLink());
+        painter.drawText(margin, y, name);
+        painter.drawText(margin + 120, y, techs);
+        QString statusIcon;
+        QColor statusColor = Qt::black;
 
-        painter.drawText(col1, y, name);
-        painter.drawText(col2, y, techs);
-        painter.drawText(col3, y, status);
-        painter.drawText(col4, y, time);
-        painter.drawText(col5, y, repo);
+        if (status == "Zakończony") {
+            statusIcon = "✅ ";
+            statusColor = QColor(0, 128, 0);
+        } else if (status == "W trakcie") {
+            statusIcon = "🔄 ";
+            statusColor = QColor(218, 165, 32);
+        } else if (status == "Wstrzymany") {
+            statusIcon = "⛔ ";
+            statusColor = Qt::red;
+        } else {
+            statusIcon = "❔ ";
+            statusColor = Qt::darkGray;
+        }
+
+        painter.setPen(statusColor);
+        painter.drawText(margin + 260, y, statusIcon + status);
+        painter.setPen(Qt::black);
+        painter.drawText(margin + 370, y, time);
+        painter.drawText(margin + 450, y, repo);
+
         y += rowHeight;
     }
 
-    y += 30;  // odstęp przed statystykami
+    // ========= STATYSTYKI =========
+    y += 30;
+    painter.setFont(QFont("Times", 14, QFont::Bold));
+    QString statsHeader = "Ogólne statystyki";
+    int statsHeaderWidth = painter.fontMetrics().horizontalAdvance(statsHeader);
+    painter.drawText((pageWidth - statsHeaderWidth) / 2, y, statsHeader);
+    y += rowHeight;
 
-    // Statystyki
-    painter.setFont(QFont("Times", 12));
+
+    // Wyświetlanie statystyk
+    painter.setFont(QFont("Times", 10));
     for (const QString& line : stats) {
-        painter.drawText(margin, y, line);
-        y += rowHeight;
+        if (line.startsWith("<b>")) {
+            QTextDocument doc;
+            doc.setHtml(line);
+            painter.save();
+            painter.translate(margin, y);
+            doc.drawContents(&painter);
+            painter.restore();
+            y += doc.size().height();
+        } else if (line.startsWith(" - ")) {
+            painter.drawText(margin + 20, y+10, line);
+            y += rowHeight;
+        } else {
+            painter.drawText(margin, y, line);
+            y += rowHeight;
+        }
     }
 
     painter.end();
-}
-
-// Pomocnicza funkcja do łączenia std::vector<std::string> na QString
-QString join(const std::vector<std::string>& vec, const QString& sep) {
-    QStringList list;
-    for (const auto& s : vec)
-        list << QString::fromStdString(s);
-    return list.join(sep);
 }
