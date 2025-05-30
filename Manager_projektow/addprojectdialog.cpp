@@ -10,6 +10,7 @@ AddProjectDialog::AddProjectDialog(QWidget *parent) :
     ui->collaboratorsLineEdit->setVisible(false);
     ui->responsibilitiesLabel->setVisible(false);
     ui->responsibilitiesLineEdit->setVisible(false);
+    ui->statusComboBox->addItems({"Zakończony", "W trakcie", "Wstrzymany", "Planowany"});
 }
 
 AddProjectDialog::~AddProjectDialog()
@@ -26,8 +27,9 @@ QStringList AddProjectDialog::getTechnologies() const {
 }
 
 QString AddProjectDialog::getStatus() const {
-    return ui->statusLineEdit->text();
+    return ui->statusComboBox->currentText();
 }
+
 
 float AddProjectDialog::getWorkTime() const {
     return static_cast<float>(ui->workTimeSpinBox->value());

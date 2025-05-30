@@ -42,7 +42,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="statusLineEdit"/>
+    <widget class="QComboBox" name="statusComboBox"/>
    </item>
    <item>
     <widget class="QLabel" name="label_4">
