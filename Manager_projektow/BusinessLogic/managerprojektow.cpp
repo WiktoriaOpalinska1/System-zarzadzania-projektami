@@ -1,6 +1,11 @@
 #include "managerprojektow.h"
 #include <iostream>
 #include <algorithm>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+
 
 
 // ============ Projects ============
@@ -138,5 +143,103 @@ void ManagerProjektow::removeProject(Project* p) {
         projekty.erase(it);
     }
 }
+
+bool ManagerProjektow::saveToFile(const QString& filename) const {
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return false;
+
+    QJsonArray array;
+    for (const auto* p : projekty)
+        array.append(p->toJson());
+
+    QJsonDocument doc(array);
+    file.write(doc.toJson(QJsonDocument::Indented));
+    return true;
+}
+
+bool ManagerProjektow::loadFromFile(const QString& filename) {
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return false;
+
+    QByteArray data = file.readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    if (!doc.isArray())
+        return false;
+
+    QJsonArray array = doc.array();
+
+    // usuń poprzednie projekty
+    for (auto* p : projekty)
+        delete p;
+    projekty.clear();
+
+    for (const QJsonValue& val : array) {
+        QJsonObject obj = val.toObject();
+        Project* p = nullptr;
+
+        if (obj["type"].toString() == "TeamProject")
+            p = new TeamProject("", {}, "", 0, "", {}, "");
+        else
+            p = new Project("", {}, "", 0, "");
+
+        p->fromJson(obj);
+        projekty.push_back(p);
+    }
+
+    return true;
+}
+QJsonObject Project::toJson() const {
+    QJsonObject obj;
+    obj["type"] = "Project";
+    obj["name"] = QString::fromStdString(name);
+    obj["status"] = QString::fromStdString(status);
+    obj["workTime"] = workTime;
+    obj["repository"] = QString::fromStdString(repositoryLink);
+
+    QJsonArray techs;
+    for (const auto& t : technologies)
+        techs.append(QString::fromStdString(t));
+    obj["technologies"] = techs;
+
+    return obj;
+}
+
+void Project::fromJson(const QJsonObject& obj) {
+    name = obj["name"].toString().toStdString();
+    status = obj["status"].toString().toStdString();
+    workTime = static_cast<float>(obj["workTime"].toDouble());
+    repositoryLink = obj["repository"].toString().toStdString();
+
+    technologies.clear();
+    for (const auto& val : obj["technologies"].toArray())
+        technologies.push_back(val.toString().toStdString());
+}
+
+QJsonObject TeamProject::toJson() const {
+    QJsonObject obj = Project::toJson();
+    obj["type"] = "TeamProject";
+
+    QJsonArray collabs;
+    for (const auto& c : collaborators)
+        collabs.append(QString::fromStdString(c));
+    obj["collaborators"] = collabs;
+    obj["responsibilities"] = QString::fromStdString(responsibilities);
+
+    return obj;
+}
+
+void TeamProject::fromJson(const QJsonObject& obj) {
+    Project::fromJson(obj);
+
+    collaborators.clear();
+    for (const auto& val : obj["collaborators"].toArray())
+        collaborators.push_back(val.toString().toStdString());
+
+    responsibilities = obj["responsibilities"].toString().toStdString();
+}
+
+
 
 

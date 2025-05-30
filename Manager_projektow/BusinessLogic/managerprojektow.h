@@ -1,6 +1,7 @@
 #ifndef MANAGERPROJEKTOW_H
 #define MANAGERPROJEKTOW_H
 
+#include <qobject.h>
 #include <string>
 #include <vector>
 
@@ -43,6 +44,10 @@ public:
 
     // Destruktor
     virtual ~Project() = default;
+    virtual QJsonObject toJson() const;
+    virtual void fromJson(const QJsonObject& obj);
+    virtual bool isTeamProject() const { return false; }
+
 
 
 };
@@ -69,6 +74,11 @@ public:
     // Settery
     void setCollaborators(const vector<string>& collaborators);
     void setResponsibilities(const string& responsibilities);
+    virtual QJsonObject toJson() const;
+    virtual void fromJson(const QJsonObject& obj);
+    bool isTeamProject() const override { return true; }
+
+
 
 
 };
@@ -85,6 +95,9 @@ public:
     const vector<Project*>& getProjekty() const;
     void addProject(Project* p);
     void removeProject(Project* p);
+    bool saveToFile(const QString& filename) const;
+    bool loadFromFile(const QString& filename);
+
 
 
     ~ManagerProjektow();
