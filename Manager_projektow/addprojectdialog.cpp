@@ -1,5 +1,6 @@
 #include "addprojectdialog.h"
 #include "ui_addprojectdialog.h"
+#include <QMessageBox>
 
 AddProjectDialog::AddProjectDialog(QWidget *parent) :
     QDialog(parent),
@@ -41,6 +42,11 @@ QString AddProjectDialog::getRepository() const {
 
 void AddProjectDialog::on_buttonBox_accepted()
 {
+    if (ui->nameLineEdit->text().isEmpty()) {
+        QMessageBox::warning(this, "Błąd", "Nazwa projektu nie może być pusta.");
+        return;
+    }
+
     accept();
 }
 
