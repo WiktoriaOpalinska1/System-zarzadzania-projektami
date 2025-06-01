@@ -10,6 +10,9 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <QFileDialog>
+#include <QInputDialog>
+#include <QMessageBox>
+
 
 const QString SAVE_FILENAME = "projekty.json";
 
@@ -203,13 +206,38 @@ void MainWindow::onSearchFilterChanged(int index)
 }
 
 void MainWindow::on_deleteProjectButton_clicked() {
-    int selectedRow = ui->projectTableWidget->currentRow();
-    if (selectedRow >= 0 && selectedRow < static_cast<int>(managerProjektow.getProjekty().size())) {
-        auto projekty = managerProjektow.getProjekty();
-        Project* toRemove = projekty[selectedRow];
+    const auto& projekty = managerProjektow.getProjekty();
+    if (projekty.empty()) {
+        QMessageBox::information(this, "Brak projektów", "Nie ma żadnych projektów do usunięcia.");
+        return;
+    }
 
-        managerProjektow.removeProject(toRemove);
-        showProjectsInTable(managerProjektow.getProjekty());
+    QStringList projectNames;
+    for (const auto* p : projekty) {
+        projectNames << QString::fromStdString(p->getName());
+    }
+
+    bool ok;
+    QString selectedName = QInputDialog::getItem(this, "Wybierz projekt do usunięcia", "Projekt:", projectNames, 0, false, &ok);
+
+    if (ok && !selectedName.isEmpty()) {
+        int indexToDelete = -1;
+        for (int i = 0; i < projekty.size(); ++i) {
+            if (QString::fromStdString(projekty[i]->getName()) == selectedName) {
+                indexToDelete = i;
+                break;
+            }
+        }
+
+        if (indexToDelete >= 0) {
+            QMessageBox::StandardButton confirm = QMessageBox::question(this, "Potwierdzenie usunięcia",
+            "Czy na pewno chcesz usunąć projekt: \"" + selectedName + "\"?", QMessageBox::Yes | QMessageBox::No);
+
+            if (confirm == QMessageBox::Yes) {
+               managerProjektow.removeProject(projekty[indexToDelete]);
+                showProjectsInTable(managerProjektow.getProjekty());
+            }
+        }
     }
 }
 
