@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Manager projektów</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -144,7 +144,7 @@
      <x>0</x>
      <y>0</y>
      <width>923</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
