@@ -143,6 +143,8 @@ void MainWindow::on_addProjectButton_clicked()
 
         managerProjektow.addProject(newProject);
         showProjectsInTable(managerProjektow.getProjekty());
+        QMessageBox::information(this, "Dodano projekt", "Projekt został poprawnie dodany.");
+
     }
 }
 void MainWindow::onSearchTextChanged(const QString&)
@@ -236,6 +238,9 @@ void MainWindow::on_deleteProjectButton_clicked() {
             if (confirm == QMessageBox::Yes) {
                managerProjektow.removeProject(projekty[indexToDelete]);
                 showProjectsInTable(managerProjektow.getProjekty());
+
+               QMessageBox::information(this, "Usunięto projekt", "Projekt został poprawnie usunięty.");
+
             }
         }
     }
@@ -449,4 +454,5 @@ void MainWindow::on_generatePdfButton_clicked() {
     }
 
     painter.end();
+    QMessageBox::information(this, "PDF wygenerowany", "Raport PDF został pomyślnie zapisany.");
 }
