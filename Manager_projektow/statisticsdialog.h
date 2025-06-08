@@ -8,8 +8,7 @@ namespace Ui {
 class StatisticsDialog;
 }
 
-class StatisticsDialog : public QDialog
-{
+class StatisticsDialog : public QDialog{
     Q_OBJECT
 
 public:
