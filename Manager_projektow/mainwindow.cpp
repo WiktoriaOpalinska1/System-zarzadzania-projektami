@@ -3,7 +3,6 @@
 #include "addprojectdialog.h"
 #include "statisticsdialog.h"
 #include "BusinessLogic/managerprojektow.h"
-
 #include <QString>
 #include <QTextEdit>
 #include <algorithm>
@@ -13,9 +12,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 
-
 const QString SAVE_FILENAME = "projekty.json";
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -46,14 +43,11 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onSearchFilterChanged);
     ui->searchLineEdit->setPlaceholderText("Wpisz dowolny szukany fragment...");
     connect(ui->deleteProjectButton, &QPushButton::clicked, this, &MainWindow::on_deleteProjectButton_clicked);
-
-
 }
 
 MainWindow::~MainWindow() {
     delete ui;
     managerProjektow.saveToFile(SAVE_FILENAME);
-
 }
 
 void MainWindow::onSortButtonClicked() {
@@ -65,7 +59,7 @@ void MainWindow::onSortButtonClicked() {
                        : a->getName() > b->getName();
     });
 
-    showProjectsInTable(projekty);  // ← zamiast wypisywania do QTextEdit
+    showProjectsInTable(projekty);  
 }
 
 void MainWindow::showProjectsInTable(const std::vector<Project*>& projekty) {
@@ -86,12 +80,10 @@ void MainWindow::showProjectsInTable(const std::vector<Project*>& projekty) {
         for (const auto& t : p->getTechnologies())
             techList += QString::fromStdString(t) + ", ";
         if (!techList.isEmpty()) techList.chop(2);
+        
         ui->projectTableWidget->setItem(row, 1, new QTableWidgetItem(techList));
-
         ui->projectTableWidget->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(p->getStatus())));
-
         ui->projectTableWidget->setItem(row, 3, new QTableWidgetItem(QString::number(p->getWorkTime())));
-
         ui->projectTableWidget->setItem(row, 4, new QTableWidgetItem(QString::fromStdString(p->getRepositoryLink())));
 
         TeamProject* team = dynamic_cast<TeamProject*>(p);
@@ -101,17 +93,15 @@ void MainWindow::showProjectsInTable(const std::vector<Project*>& projekty) {
                 authors += QString::fromStdString(a) + ", ";
             if (!authors.isEmpty()) authors.chop(2);
             ui->projectTableWidget->setItem(row, 5, new QTableWidgetItem(authors));
-
             ui->projectTableWidget->setItem(row, 6, new QTableWidgetItem(QString::fromStdString(team->getResponsibilities())));
         } else {
-
             ui->projectTableWidget->setItem(row, 5, new QTableWidgetItem("-"));
             ui->projectTableWidget->setItem(row, 6, new QTableWidgetItem("-"));
         }
     }
 }
-void MainWindow::on_addProjectButton_clicked()
-{
+
+void MainWindow::on_addProjectButton_clicked(){
     AddProjectDialog dialog(this);
     if (dialog.exec() == QDialog::Accepted) {
         auto name = dialog.getName().toStdString();
@@ -144,11 +134,10 @@ void MainWindow::on_addProjectButton_clicked()
         managerProjektow.addProject(newProject);
         showProjectsInTable(managerProjektow.getProjekty());
         QMessageBox::information(this, "Dodano projekt", "Projekt został poprawnie dodany.");
-
     }
 }
-void MainWindow::onSearchTextChanged(const QString&)
-{
+
+void MainWindow::onSearchTextChanged(const QString&){
     QString searchText = ui->searchLineEdit->text().trimmed().toLower();
     QString filterType = ui->searchFilterComboBox->currentText();
 
@@ -180,7 +169,7 @@ void MainWindow::onSearchTextChanged(const QString&)
             match = repo.contains(searchText);
         else if (filterType == "Współautorzy")
             match = authors.contains(searchText);
-        else  // Wszystko
+        else  
             match = name.contains(searchText) || techList.contains(searchText) ||
                     status.contains(searchText) || repo.contains(searchText) ||
                     authors.contains(searchText);
@@ -188,11 +177,10 @@ void MainWindow::onSearchTextChanged(const QString&)
         if (match)
             filtered.push_back(p);
     }
-
     showProjectsInTable(filtered);
 }
-void MainWindow::onSearchFilterChanged(int index)
-{
+
+void MainWindow::onSearchFilterChanged(int index){
     QString placeholder;
 
     switch (index) {
@@ -203,7 +191,6 @@ void MainWindow::onSearchFilterChanged(int index)
     case 5: placeholder = "Wpisz współautora..."; break;
     default: placeholder = "Wpisz dowolny szukany fragment..."; break;
     }
-
     ui->searchLineEdit->setPlaceholderText(placeholder);
 }
 
@@ -238,9 +225,7 @@ void MainWindow::on_deleteProjectButton_clicked() {
             if (confirm == QMessageBox::Yes) {
                managerProjektow.removeProject(projekty[indexToDelete]);
                 showProjectsInTable(managerProjektow.getProjekty());
-
                QMessageBox::information(this, "Usunięto projekt", "Projekt został poprawnie usunięty.");
-
             }
         }
     }
@@ -295,11 +280,9 @@ void MainWindow::on_showStatsButton_clicked() {
     }
 
     StatisticsDialog dialog(stats, this);
-    dialog.exec();  // pokaż okno statystyk
+    dialog.exec();  
 }
 
-
-// Pomocnicza funkcja do łączenia std::vector<std::string> na QString
 QString join(const std::vector<std::string>& vec, const QString& sep) {
     QStringList list;
     for (const auto& s : vec)
@@ -367,7 +350,6 @@ void MainWindow::on_generatePdfButton_clicked() {
     const int rowHeight = 25;
     int y = margin;
 
-    // ========= NAGŁÓWEK =========
     painter.setFont(QFont("Times", 16, QFont::Bold));
     QString headerText = "Projekty programistyczne";
     int headerWidth = painter.fontMetrics().horizontalAdvance(headerText);
@@ -385,7 +367,6 @@ void MainWindow::on_generatePdfButton_clicked() {
     y += rowHeight;
     painter.setFont(QFont("Times", 10));
 
-    // ========= TABELA PROJEKTÓW =========
     for (const auto* p : projekty) {
         QString name = QString::fromStdString(p->getName());
         QStringList techList;
@@ -424,7 +405,6 @@ void MainWindow::on_generatePdfButton_clicked() {
         y += rowHeight;
     }
 
-    // ========= STATYSTYKI =========
     y += 30;
     painter.setFont(QFont("Times", 14, QFont::Bold));
     QString statsHeader = "Ogólne statystyki";
@@ -432,8 +412,6 @@ void MainWindow::on_generatePdfButton_clicked() {
     painter.drawText((pageWidth - statsHeaderWidth) / 2, y, statsHeader);
     y += rowHeight;
 
-
-    // Wyświetlanie statystyk
     painter.setFont(QFont("Times", 10));
     for (const QString& line : stats) {
         if (line.startsWith("<b>")) {
