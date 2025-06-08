@@ -6,10 +6,6 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-
-
-// ============ Projects ============
-// Konstruktor
 Project::Project(const string& name, const vector<string>& technologies, const string& status,
                  float workTime, const string& repositoryLink) {
     this->name = name;
@@ -19,49 +15,26 @@ Project::Project(const string& name, const vector<string>& technologies, const s
     this->repositoryLink = repositoryLink;
 }
 
-// Gettery
-string Project::getName() const {
-    return name;
-}
+string Project::getName() const { return name; }
 
-vector<string> Project::getTechnologies() const {
-    return technologies;
-}
+vector<string> Project::getTechnologies() const { return technologies; }
 
-string Project::getStatus() const {
-    return status;
-}
+string Project::getStatus() const { return status; }
 
-float Project::getWorkTime() const {
-    return workTime;
-}
+float Project::getWorkTime() const { return workTime; }
 
-string Project::getRepositoryLink() const {
-    return repositoryLink;
-}
+string Project::getRepositoryLink() const { return repositoryLink; }
 
-// Settery
-void Project::setName(const string& name) {
-    this->name = name;
-}
+void Project::setName(const string& name) { this->name = name; }
 
-void Project::setTechnologies(const vector<string>& technologies) {
-    this->technologies = technologies;
-}
+void Project::setTechnologies(const vector<string>& technologies) { this->technologies = technologies; }
 
-void Project::setStatus(const string& status) {
-    this->status = status;
-}
+void Project::setStatus(const string& status) { this->status = status; }
 
-void Project::setWorkTime(float time) {
-    this->workTime = time;
-}
+void Project::setWorkTime(float time) { this->workTime = time; }
 
-void Project::setRepositoryLink(const string& link) {
-    this->repositoryLink = link;
-}
+void Project::setRepositoryLink(const string& link) { this->repositoryLink = link; }
 
-// Pozostale funkcje
 void Project::printInfo() const {
     cout << "=== Projekt ===" << endl;
     cout << "Nazwa: " << name << endl;
@@ -87,8 +60,6 @@ string Project::toString() const {
     return result;
 }
 
-// ============ Team Projects ============
-// Konstruktor
 TeamProject::TeamProject(const string& name, const vector<string>& technologies, const string& status, float workTime,
                          const string& repositoryLink, const vector<string>& collaborators, const string& responsibilities)
     : Project(name, technologies, status, workTime, repositoryLink){
@@ -96,27 +67,14 @@ TeamProject::TeamProject(const string& name, const vector<string>& technologies,
     this->responsibilities = responsibilities;
 }
 
-// Gettery
-const vector<string>& TeamProject::getCollaborators() const {
-    return collaborators;
-}
+const vector<string>& TeamProject::getCollaborators() const { return collaborators; }
 
-const string& TeamProject::getResponsibilities() const {
-    return responsibilities;
-}
+const string& TeamProject::getResponsibilities() const { return responsibilities; }
 
+void TeamProject::setCollaborators(const vector<string>& collaborators) { this->collaborators = collaborators; }
 
-// Settery
-void TeamProject::setCollaborators(const vector<string>& collaborators) {
-    this->collaborators = collaborators;
-}
+void TeamProject::setResponsibilities(const string& responsibilities) { this->responsibilities = responsibilities; }
 
-void TeamProject::setResponsibilities(const string& responsibilities) {
-    this->responsibilities = responsibilities;
-}
-
-
-// ============= Manager Projektow ===========
 ManagerProjektow::ManagerProjektow() {
     projekty.push_back(new Project("CRM", {"C++", "Qt"}, "W trakcie", 100, "https://github.com/projekt/crm"));
     projekty.push_back(new TeamProject("Rezerwacje", {"C++", "Qt", "MySQL"}, "Zakończony", 200,
@@ -124,17 +82,14 @@ ManagerProjektow::ManagerProjektow() {
                                        {"Jan", "Anna"}, "Backend + GUI"));
 }
 
-const vector<Project*>& ManagerProjektow::getProjekty() const {
-    return projekty;
-}
+const vector<Project*>& ManagerProjektow::getProjekty() const { return projekty; }
 
 ManagerProjektow::~ManagerProjektow() {
     for (auto* p : projekty)
         delete p;
 }
-void ManagerProjektow::addProject(Project* p) {
-    projekty.push_back(p);
-}
+
+void ManagerProjektow::addProject(Project* p) { projekty.push_back(p); }
 
 void ManagerProjektow::removeProject(Project* p) {
     auto it = std::find(projekty.begin(), projekty.end(), p);
@@ -170,7 +125,6 @@ bool ManagerProjektow::loadFromFile(const QString& filename) {
 
     QJsonArray array = doc.array();
 
-    // usuń poprzednie projekty
     for (auto* p : projekty)
         delete p;
     projekty.clear();
@@ -190,6 +144,7 @@ bool ManagerProjektow::loadFromFile(const QString& filename) {
 
     return true;
 }
+
 QJsonObject Project::toJson() const {
     QJsonObject obj;
     obj["type"] = "Project";
@@ -239,7 +194,3 @@ void TeamProject::fromJson(const QJsonObject& obj) {
 
     responsibilities = obj["responsibilities"].toString().toStdString();
 }
-
-
-
-
