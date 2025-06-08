@@ -7,8 +7,7 @@ namespace Ui {
 class AddProjectDialog;
 }
 
-class AddProjectDialog : public QDialog
-{
+class AddProjectDialog : public QDialog{
     Q_OBJECT
 
 public:
@@ -23,7 +22,6 @@ public:
     bool isTeamProject() const;
     QStringList getCollaborators() const;
     QString getResponsibilities() const;
-
 
 private slots:
     void on_buttonBox_accepted();
